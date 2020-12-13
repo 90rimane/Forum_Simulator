@@ -12,6 +12,18 @@ namespace ForumLibrary
         public int PostId {get;set;}
         public string PostContent { get; set; }
         public string PostDate { get; set; }
+        private void CreatePost() //A post contains text and who created the post
+        {
+
+        }
+        private void DeletePost()
+        {
+
+        }
+        private void UpdatePost()
+        {
+
+        }
 
     }
 }

@@ -12,5 +12,14 @@ namespace ForumLibrary
         public string UserPass { get; set; }
         public string UserEmail { get; set; }
         public string UserDate { get; set; }
+
+        private void AddUser()
+        {
+
+        }
+        private void RemoveUser()
+        {
+
+        }
     }
 }

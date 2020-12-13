@@ -39,5 +39,11 @@
     <Compile Include="Forum.cs" />
     <Compile Include="Program.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ForumLibrary\ForumLibrary.csproj">
+      <Project>{9e21c96c-f405-445a-af85-e8a3a10a0efe}</Project>
+      <Name>ForumLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

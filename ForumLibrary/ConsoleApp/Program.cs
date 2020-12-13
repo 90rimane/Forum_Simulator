@@ -8,5 +8,12 @@ namespace ConsoleApp
 {
     class Program
     {
+        static void Main(string[] args)
+        {
+            var myForum = new Forum();
+            myForum.Run();
+
+            Console.ReadKey();
+        }
     }
 }

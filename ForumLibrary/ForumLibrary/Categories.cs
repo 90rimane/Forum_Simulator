@@ -11,6 +11,6 @@ namespace ForumLibrary
         }
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }
-        public string CategoryDate { get; set; }
+        
     }
 }

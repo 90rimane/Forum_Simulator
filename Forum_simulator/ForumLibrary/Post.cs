@@ -4,14 +4,16 @@ using System.Text;
 
 namespace ForumLibrary
 {
-    class Posts
+    class Post
     {
-        public Posts()
+        public Post()
         {
         }
-        public int PostId {get;set;}
+        public int PostId { get; set; }
         public string PostContent { get; set; }
         public string PostDate { get; set; }
+        public List<Thread> ThreadId { get; set; }
+        public List<User> UserId { get; set; }
         private void CreatePost() //A post contains text and who created the post
         {
 
@@ -27,3 +29,4 @@ namespace ForumLibrary
 
     }
 }
+

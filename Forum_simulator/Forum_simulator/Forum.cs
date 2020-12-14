@@ -5,14 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using ForumLibrary;
 
-namespace ConsoleApp
+namespace Forum_simulator
 {
-    class Forum
+    public class Forum
     {
         public void Run()
         {
-
+            var repo = new User();
+            repo.PrintVersion();
         }
-
     }
 }

@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ForumLibrary;
 
-namespace ConsoleApp
+namespace Forum_simulator
 {
     class Program
     {
@@ -15,5 +16,6 @@ namespace ConsoleApp
 
             Console.ReadKey();
         }
+
     }
 }

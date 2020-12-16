@@ -13,9 +13,7 @@ namespace Forum_simulator
         {
             var myForum = new Forum();
             myForum.Run();
-
             Console.ReadKey();
         }
-
     }
 }

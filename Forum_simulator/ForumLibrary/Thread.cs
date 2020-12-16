@@ -8,34 +8,50 @@ namespace ForumLibrary
 {
     public class Thread
     {
-        //private const string _connectionString = "Data Source =.\\forumDB.db";
+        private const string _connectionString = "Data Source =.\\forumDB.db";
         public Thread()
         {
         }
         public int ThreadId { get; }
         public string ThreadSubject { get; set; }
-        public string ThreadDate { get; set; }
+        public DateTimeOffset ThreadDate { get; }
         public int CatId { get; set; }
         public int UserId { get; set; }
-        public List<Category> Cats { get; set; }
-        public List<User> Users { get; set; }
-        //public IList<Thread> GetThread()
-        //{
-        //    using (var connection = new SqliteConnection(_connectionString))
-        //    {
-        //        var threads = connection.Query<Thread>("SELECT * FROM Thread");
-        //        return threads.ToList();
-        //    }
-        //}
-        private void CreateThread()
-        {
+        public Category Cats { get; set; }
+        public User Users { get; set; }
 
-        }
-        private void ListThreadContent()      //name of thread,who created, how many post exist in threads
+        public void CreateThread(Thread thread)
         {
-
+            using (var connection = new SqliteConnection(_connectionString))
+            {
+                var sql = "INSERT INTO Thread (ThreadSubject, ThreadDate, CatId, UserId) VALUES (@ThreadSubject, @ThreadDate, @CatId, @UserId); " +
+                    "SELECT last_insert_rowid();";
+                var userId = connection.Query<int>(sql, thread);
+                thread.UserId = userId.First();
+            }
         }
-        // For a given thread it should be possible to view all posts that were created in it
+        public IList<Thread> GetThread()
+        {
+            using (var connection = new SqliteConnection(_connectionString))    //
+            {
+                var threads = connection.Query<Thread>("SELECT t.*, u.UserName AS Creator, COUNT(p.Id) AS PostCount " +
+                "FROM Thread AS t " +
+                "LEFT JOIN Post AS p ON (p.ThreadId = t.ThreadId) " +
+                "LEFT JOIN User AS u ON (p.UserId = u.UserId) " +
+                "GROUP BY t.ThreadSubject " +
+                "ORDER BY t.Id;");
+                return threads.ToList();
+            }
+        }
+        public Thread GetById(int userId)
+        {
+            using (var connection = new SqliteConnection(_connectionString))
+            {
+                var sql = "SELECT * FROM Thread WHERE ThreadId = @UserId";         //
+                return connection.QuerySingle<Thread>(sql, new { UserId = userId });
+            }
+        }
+
     }
 }
 

@@ -10,7 +10,7 @@ namespace ForumLibrary
     {
         private const string _connectionString = "Data Source =.\\forumDB.db";
 
-        private int userId = 4;
+        private int userId = -1;
         private int userPass;
 
         public User(string userName, string userEmail)
@@ -20,17 +20,11 @@ namespace ForumLibrary
             UserEmail = userEmail;
             UserDate = DateTimeOffset.Now;
         }
-        public int UserId { get; }
-        //{
-        //    get { return userId; }
-        //    set
-        //    {
-        //        for (int i = 3; i < 999; i++)         ///i = 0
-        //        {
-        //            userId = i;
-        //        }
-        //    ;}
-        //}
+        public int UserId
+        {
+            get { return userId; }
+            set { if (userId == -1) userId = value; }
+        }
         public string UserName { get; set; }
         public int UserPass
         {
@@ -44,42 +38,15 @@ namespace ForumLibrary
             }
         }
         public string UserEmail { get; set; }
-        public DateTimeOffset UserDate { get;}
+        public DateTimeOffset UserDate { get; }
 
-        public void PrintVersion()
+        public IList<User> GetUsers()
         {
-            Console.WriteLine("he hej hej");
             using (var connection = new SqliteConnection(_connectionString))
             {
-                Console.WriteLine(connection.ServerVersion);
+                var users = connection.Query<User>("SELECT * FROM User");
+                return users.ToList();
             }
-        }
-
-        public void AddUser()
-        {
-            Console.WriteLine("-----Add User-----\n");
-
-            Console.WriteLine("Enter your name:");
-            string newName = Console.ReadLine();
-
-            Console.WriteLine("Enter your Email:");
-            string newEmail = Console.ReadLine();
-
-            List<User> users = new List<User>();
-            users.Add(new User(newName, newEmail));
-
-            using (var connection = new SqliteConnection(_connectionString))
-            {
-                var sql = $"INSERT INTO User (UserId,UserName,UserPass,UserEmail,UserDate) VALUES " +
-                                           $"(@UserId,@UserName,@UserPass,@UserEmail,@UserDate)";
-                var result = connection.Execute(sql, users);
-            }
-
-        }
-        private void RemoveUser()
-        {
-
         }
     }
 }
-

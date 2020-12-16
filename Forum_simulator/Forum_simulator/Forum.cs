@@ -7,29 +7,16 @@ using ForumLibrary;
 
 namespace Forum_simulator
 {
-    public class Forum
+    class Forum
     {
+        private User user = new User(null, null);
+        private Category cat = new Category();
+        private Thread thread = new Thread();
+        private Post post = new Post();
         public void Run()
         {
 
-            //var threRepo = new Thread();
-            //PrintThread(threRepo);
-
-            var user = new User(null,null);
-            user.PrintVersion();
-            user.AddUser();
         }
 
-        //private void PrintThread(Thread repository)
-        //{
-        //    var threads = repository.GetThread();
-        //    foreach (var thread in threads)
-        //    {
-        //        Console.WriteLine($"Thread List: {thread.ThreadSubject },categoriesId: { thread.CatId}, {thread.ThreadDate},{ thread.Cats}");
-        //        Console.ReadKey();
-        //    }
-        //}
-
-        
     }
 }

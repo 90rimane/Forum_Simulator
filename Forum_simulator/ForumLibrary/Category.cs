@@ -10,6 +10,7 @@ namespace ForumLibrary
 
     public class Category
     {
+        private const string _connectionString = "Data Source =.\\forumDB.db";
         public Category()
         {
         }

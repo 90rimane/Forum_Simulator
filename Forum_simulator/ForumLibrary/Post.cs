@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using Dapper;
+using Microsoft.Data.Sqlite;
+using System.Linq;
 
 namespace ForumLibrary
 {
@@ -9,11 +11,14 @@ namespace ForumLibrary
         public Post()
         {
         }
-        public int PostId { get; set; }
+        public int PostId { get; }
         public string PostContent { get; set; }
         public string PostDate { get; set; }
-        public List<Thread> ThreadId { get; set; }
-        public List<User> UserId { get; set; }
+        public int ThreadId { get; set; }
+        public int UserId { get; set; }
+        public List<Thread> Threads { get; set; }
+        public List<User> Users { get; set; }
+
         private void CreatePost() //A post contains text and who created the post
         {
 

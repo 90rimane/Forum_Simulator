@@ -11,8 +11,25 @@ namespace Forum_simulator
     {
         public void Run()
         {
-            var repo = new User();
-            repo.PrintVersion();
+
+            //var threRepo = new Thread();
+            //PrintThread(threRepo);
+
+            var user = new User(null,null);
+            user.PrintVersion();
+            user.AddUser();
         }
+
+        //private void PrintThread(Thread repository)
+        //{
+        //    var threads = repository.GetThread();
+        //    foreach (var thread in threads)
+        //    {
+        //        Console.WriteLine($"Thread List: {thread.ThreadSubject },categoriesId: { thread.CatId}, {thread.ThreadDate},{ thread.Cats}");
+        //        Console.ReadKey();
+        //    }
+        //}
+
+        
     }
 }

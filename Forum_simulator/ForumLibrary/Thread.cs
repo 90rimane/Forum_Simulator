@@ -1,19 +1,32 @@
-﻿using System;
+﻿using Microsoft.Data.Sqlite;
+using System;
 using System.Collections.Generic;
-using System.Text;
+using Dapper;
+using System.Linq;
 
 namespace ForumLibrary
 {
-    class Thread
+    public class Thread
     {
+        //private const string _connectionString = "Data Source =.\\forumDB.db";
         public Thread()
         {
         }
-        public int ThreadId { get; set; }
+        public int ThreadId { get; }
         public string ThreadSubject { get; set; }
         public string ThreadDate { get; set; }
-        public List<Category> CatId { get; set; }
-        public List<User> UserId { get; set; }
+        public int CatId { get; set; }
+        public int UserId { get; set; }
+        public List<Category> Cats { get; set; }
+        public List<User> Users { get; set; }
+        //public IList<Thread> GetThread()
+        //{
+        //    using (var connection = new SqliteConnection(_connectionString))
+        //    {
+        //        var threads = connection.Query<Thread>("SELECT * FROM Thread");
+        //        return threads.ToList();
+        //    }
+        //}
         private void CreateThread()
         {
 

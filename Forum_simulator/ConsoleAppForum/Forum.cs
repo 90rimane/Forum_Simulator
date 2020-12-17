@@ -20,63 +20,46 @@ namespace ConsoleAppForum
             //AddPost();
             //UpdatePost(_postRepo);
             //DeletePost(_postRepo);
-
-        }
-        public void PrintThreads(Thread repo)
-        {
-            var threads = repo.GetThreads();
-            Console.WriteLine("\t------Threads------");
-            Console.WriteLine("Id\t | Subject\t | User Name | Post Count\n");
-            foreach (var thread in threads)
+            while (true)
             {
-                if (thread.PostCount == 0)
+                Console.Clear();
+                Console.WriteLine("\t\t\t------Welcome to the Forum-simulator!------");   //välkommen meddelande
+                Console.WriteLine("\nEnter a Command:\n" +
+                                  "[A] Add Post\n" +
+                                  "[B] Update Post\n" +
+                                  "[C] Remove Post\n" +
+                                  "[D] Add Thread\n" +
+                                  "[E] Show All Threads\n" +
+                                  "[F] Show Thread By Id\n" +
+                                  "[G] List Users\n" +
+                                  "[X] Exit");
+                ConsoleKeyInfo inputFromUser = Console.ReadKey(true);        //Consolekeyinfo är en klass funkar som direkt knapp
+                switch (inputFromUser.Key)                                  //switch case för huvud meny
                 {
-                    Console.WriteLine($"{thread.Id}\t | {thread.Subject}\t\t | {thread.PostCount}");
-                }
-                else
-                {
-                    Console.WriteLine($"{thread.Id}\t | {thread.Subject}\t | {thread.Creator}\t | {thread.PostCount}");
+                    case ConsoleKey.A:
+                        {
+
+                            break;
+                        }
+                    case ConsoleKey.B:
+                        {
+
+                            break;
+                        }
+                    case ConsoleKey.C:
+                        {
+
+                            Environment.Exit(0);
+                            return;
+                        }
+                    default:
+                        {
+                            Console.WriteLine("Please choose something in the menu");
+                            break;
+                        }
                 }
             }
-        }
-        public void PrintThreadContentById(Post postrepo, Thread threadrepo)
-        {
-            Thread repo = _threadRepo;
-            var threads = repo.GetThreads();
-            Console.WriteLine("\t------List Threads Content By Id------\n");
 
-            foreach (var thre in threads)
-                Console.Write($"|{thre.Id}-{thre.Subject} |");
-
-            Console.Write("\n\nEnter Thread Id: ");
-
-            var threadId = int.Parse(Console.ReadLine());
-            var thread = threadrepo.GetById(threadId);
-            var posts = postrepo.GetPostsByThread(thread);
-
-            Console.WriteLine($"\n\t------\"{thread.Subject}\"------\n" +
-                              $"\nUser | Post (Post Id)\n");
-
-            foreach (var p in posts)            
-                Console.WriteLine($"\t{p.User.UserName} | {p.Content} ({p.Id})\n");            
-        }
-        public void ListUsers(User repo)
-        {
-            var users = repo.GetUsers();
-            Console.WriteLine("\t------Users List------");
-            Console.WriteLine("\nid| User Name\n");
-            foreach (var u in users)
-                Console.WriteLine($"{u.Id}| {u.UserName}");
-        }
-        public void AddThread()
-        {
-            var thread = new Thread();
-            Console.WriteLine("\t------Create Thread------\n");
-            Console.Write("Enter a Subject : ");
-            thread.Subject = Console.ReadLine();
-            _threadRepo.CreateThread(thread);
-            Console.WriteLine("\nThreat Created. Press Any Key To Continue...");
-            Console.ReadKey();
         }
         public void AddPost()
         {
@@ -129,6 +112,62 @@ namespace ConsoleAppForum
 
             Console.WriteLine("\nPost Deleted Successfully. Press Any Key To Continue...");
             Console.ReadKey();
+        }
+        public void AddThread()
+        {
+            var thread = new Thread();
+            Console.WriteLine("\t------Create Thread------\n");
+            Console.Write("Enter a Subject : ");
+            thread.Subject = Console.ReadLine();
+            _threadRepo.CreateThread(thread);
+            Console.WriteLine("\nThreat Created. Press Any Key To Continue...");
+            Console.ReadKey();
+        }
+        public void ShowThreads(Thread repo)
+        {
+            var threads = repo.GetThreads();
+            Console.WriteLine("\t------Threads------");
+            Console.WriteLine("Id\t | Subject\t | User Name | Post Count\n");
+            foreach (var thread in threads)
+            {
+                if (thread.PostCount == 0)
+                {
+                    Console.WriteLine($"{thread.Id}\t | {thread.Subject}\t\t | {thread.PostCount}");
+                }
+                else
+                {
+                    Console.WriteLine($"{thread.Id}\t | {thread.Subject}\t | {thread.Creator}\t | {thread.PostCount}");
+                }
+            }
+        }
+        public void ShowThreadContentById(Post postrepo, Thread threadrepo)
+        {
+            Thread repo = _threadRepo;
+            var threads = repo.GetThreads();
+            Console.WriteLine("\t------List Threads Content By Id------\n");
+
+            foreach (var thre in threads)
+                Console.Write($"|{thre.Id}-{thre.Subject} |");
+
+            Console.Write("\n\nEnter Thread Id: ");
+
+            var threadId = int.Parse(Console.ReadLine());
+            var thread = threadrepo.GetById(threadId);
+            var posts = postrepo.GetPostsByThread(thread);
+
+            Console.WriteLine($"\n\t------\"{thread.Subject}\"------\n" +
+                              $"\nUser | Post (Post Id)\n");
+
+            foreach (var p in posts)            
+                Console.WriteLine($"\t{p.User.UserName} | {p.Content} ({p.Id})\n");            
+        }
+        public void ListUsers(User repo)
+        {
+            var users = repo.GetUsers();
+            Console.WriteLine("\t------Users List------");
+            Console.WriteLine("\nid| User Name\n");
+            foreach (var u in users)
+                Console.WriteLine($"{u.Id}| {u.UserName}");
         }
     }
 }

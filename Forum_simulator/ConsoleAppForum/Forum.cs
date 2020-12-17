@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using ForumsLibrary;
 
 namespace ConsoleAppForum
@@ -10,21 +8,13 @@ namespace ConsoleAppForum
         private Post _postRepo = new Post();
         private User _userRepo = new User();
         private Thread _threadRepo = new Thread();
-
         public void Run()
         {
-            //PrintThreads(_threadRepo);
-            //PrintThreadContentById(_postRepo,_threadRepo);
-            //ListUsers(_userRepo);
-            //AddThread();
-            //AddPost();
-            //UpdatePost(_postRepo);
-            //DeletePost(_postRepo);
             while (true)
             {
                 Console.Clear();
-                Console.WriteLine("\t\t\t------Welcome to the Forum-simulator!------");   //välkommen meddelande
-                Console.WriteLine("\nEnter a Command:\n" +
+                Console.WriteLine("\t\t\t------Welcome to the Forum-simulator!------"); 
+                Console.WriteLine("\nEnter a Command:\n\n" +
                                   "[A] Add Post\n" +
                                   "[B] Update Post\n" +
                                   "[C] Remove Post\n" +
@@ -33,20 +23,45 @@ namespace ConsoleAppForum
                                   "[F] Show Thread By Id\n" +
                                   "[G] List Users\n" +
                                   "[X] Exit");
-                ConsoleKeyInfo inputFromUser = Console.ReadKey(true);        //Consolekeyinfo är en klass funkar som direkt knapp
-                switch (inputFromUser.Key)                                  //switch case för huvud meny
+                ConsoleKeyInfo inputFromUser = Console.ReadKey(true);        
+                switch (inputFromUser.Key)                                  
                 {
                     case ConsoleKey.A:
                         {
-
+                            AddPost();
                             break;
                         }
                     case ConsoleKey.B:
                         {
-
+                            UpdatePost(_postRepo);
                             break;
                         }
                     case ConsoleKey.C:
+                        {
+                            DeletePost(_postRepo);
+                            break;
+                        }
+                    case ConsoleKey.D:
+                        {
+                            AddThread();
+                            break;
+                        }
+                    case ConsoleKey.E:
+                        {
+                            ShowThreads(_threadRepo);
+                            break;
+                        }
+                    case ConsoleKey.F:
+                        {
+                            ShowThreadContentById(_postRepo, _threadRepo);
+                            break;
+                        }
+                    case ConsoleKey.G:
+                        {
+                            ListUsers(_userRepo);
+                            break;
+                        }
+                    case ConsoleKey.X:
                         {
 
                             Environment.Exit(0);
@@ -54,15 +69,15 @@ namespace ConsoleAppForum
                         }
                     default:
                         {
-                            Console.WriteLine("Please choose something in the menu");
+                            Console.WriteLine("Please Choose Something In The Menu");
                             break;
                         }
                 }
             }
-
         }
         public void AddPost()
         {
+            Console.Clear();
             var post = new Post();
             Console.WriteLine("\t------Create Post------\n");
 
@@ -87,9 +102,13 @@ namespace ConsoleAppForum
             Console.Write("\nType Your Idea And Press Enter: ");
             post.Content = Console.ReadLine();
             _postRepo.Create(post);
+
+            Console.WriteLine("\nYour Post Added. Press Any Key To Continue...");
+            Console.ReadKey(true);
         }
         public void UpdatePost(Post repo)
         {
+            Console.Clear();
             Console.WriteLine("\t------Update Post------\n");
 
             Console.Write("Enter Old Post Id: ");
@@ -99,11 +118,12 @@ namespace ConsoleAppForum
             Console.Write("Type Your New Idea And Press Enter:: ");
             post.Content = Console.ReadLine();
             repo.Update(post);
-            Console.WriteLine("\nYour Post Updated. Press Any Key To Continue...");
-            Console.ReadKey();
+            Console.WriteLine("\nPost Updated Successfuly. Press Any Key To Continue...");
+            Console.ReadKey(true);
         }
         public void DeletePost(Post repo)
         {
+            Console.Clear();
             Console.WriteLine("\t------Delete Post------\n");
             Console.Write("Enter a Post Id: ");
             var postId = int.Parse(Console.ReadLine());
@@ -111,20 +131,23 @@ namespace ConsoleAppForum
             repo.Delete(post);
 
             Console.WriteLine("\nPost Deleted Successfully. Press Any Key To Continue...");
-            Console.ReadKey();
+            Console.ReadKey(true);
         }
         public void AddThread()
         {
+            Console.Clear();
             var thread = new Thread();
             Console.WriteLine("\t------Create Thread------\n");
             Console.Write("Enter a Subject : ");
             thread.Subject = Console.ReadLine();
             _threadRepo.CreateThread(thread);
-            Console.WriteLine("\nThreat Created. Press Any Key To Continue...");
-            Console.ReadKey();
+
+            Console.WriteLine("\nThreat Created Successfuly. Press Any Key To Continue...");
+            Console.ReadKey(true);
         }
         public void ShowThreads(Thread repo)
         {
+            Console.Clear();
             var threads = repo.GetThreads();
             Console.WriteLine("\t------Threads------");
             Console.WriteLine("Id\t | Subject\t | User Name | Post Count\n");
@@ -139,9 +162,12 @@ namespace ConsoleAppForum
                     Console.WriteLine($"{thread.Id}\t | {thread.Subject}\t | {thread.Creator}\t | {thread.PostCount}");
                 }
             }
+            Console.WriteLine("\nPress Any Key To Continue...");
+            Console.ReadKey(true);
         }
         public void ShowThreadContentById(Post postrepo, Thread threadrepo)
         {
+            Console.Clear();
             Thread repo = _threadRepo;
             var threads = repo.GetThreads();
             Console.WriteLine("\t------List Threads Content By Id------\n");
@@ -159,15 +185,22 @@ namespace ConsoleAppForum
                               $"\nUser | Post (Post Id)\n");
 
             foreach (var p in posts)            
-                Console.WriteLine($"\t{p.User.UserName} | {p.Content} ({p.Id})\n");            
+                Console.WriteLine($"\t{p.User.UserName} | {p.Content} ({p.Id})\n");
+
+            Console.WriteLine("\nPress Any Key To Continue...");
+            Console.ReadKey(true);
         }
         public void ListUsers(User repo)
         {
+            Console.Clear();
             var users = repo.GetUsers();
             Console.WriteLine("\t------Users List------");
             Console.WriteLine("\nid| User Name\n");
             foreach (var u in users)
                 Console.WriteLine($"{u.Id}| {u.UserName}");
+
+            Console.WriteLine("\nPress Any Key To Continue...");
+            Console.ReadKey(true);
         }
     }
 }

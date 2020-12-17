@@ -1,5 +1,4 @@
 ﻿using System;
-using ForumsLibrary;
 
 namespace ConsoleAppForum
 {
@@ -7,8 +6,8 @@ namespace ConsoleAppForum
     {
         public static void Main(string[] args)
         {
-            var console = new Forum();
-            console.Run();
+            var myForum = new Forum();
+            myForum.Run();
         }
     }
 }

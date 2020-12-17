@@ -2,6 +2,7 @@
 using Dapper;
 using Microsoft.Data.Sqlite;
 using System.Linq;
+using System;
 
 namespace ForumsLibrary
 {
@@ -9,6 +10,12 @@ namespace ForumsLibrary
     {
         private const string _connectionString = "Data Source=.\\ForumDB.db";
         private int _id = -1;
+
+        public Thread()
+        {
+            CreationDate = DateTime.Now;
+        }
+
         public int Id
         {
             get { return _id; }
@@ -17,6 +24,7 @@ namespace ForumsLibrary
         public string Subject { get; set; }
         public string Creator { get; set; }
         public int PostCount { get; set; }
+        public DateTime CreationDate { get; }
 
         public IList<Thread> GetThreads()
         {
@@ -43,7 +51,7 @@ namespace ForumsLibrary
         {
             using (var connection = new SqliteConnection(_connectionString))
             {
-                var sql = "INSERT INTO Thread (Subject) VALUES (@Subject); " +
+                var sql = "INSERT INTO Thread (Subject, CreationDate) VALUES (@Subject, @CreationDate); " +
                 "SELECT last_insert_rowid();";
                 var id = connection.Query<int>(sql, thread);
                 thread.Id = id.First();

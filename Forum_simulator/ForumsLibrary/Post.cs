@@ -2,6 +2,7 @@
 using Dapper;
 using Microsoft.Data.Sqlite;
 using System.Linq;
+using System;
 
 namespace ForumsLibrary
 {
@@ -9,6 +10,12 @@ namespace ForumsLibrary
     {
         private const string _connectionString = "Data Source=.\\ForumDB.db";
         private int _id = -1;
+
+        public Post()
+        {
+            PostDate = DateTime.Now;
+        }
+
         public int Id
         {
             get { return _id; }
@@ -19,6 +26,7 @@ namespace ForumsLibrary
         public int UserId { get; set; }
         public User User { get; set; }
         public Thread Thread { get; set; }
+        public DateTime PostDate { get; }
 
         public IList<Post> GetPosts()
         {
@@ -52,18 +60,18 @@ namespace ForumsLibrary
                 return posts.ToList();
             }
         }
-        public void Create(Post post)
+        public void CreatePost(Post post)
         {
             using (var connection = new SqliteConnection(_connectionString))
             {
-                var sql = "INSERT INTO Post (ThreadId, Content, UserId) " +
-                "VALUES (@ThreadId, @Content, @UserId); " +
+                var sql = "INSERT INTO Post (ThreadId, Content, UserId, PostDate) " +
+                "VALUES (@ThreadId, @Content, @UserId, @PostDate); " +
                 "SELECT last_insert_rowid();";
                 var id = connection.Query<int>(sql, post);
                 post.Id = id.First();
             }
         }
-        public void Update(Post post)
+        public void UpdatePost(Post post)
         {
             using (var connection = new SqliteConnection(_connectionString))
             {
@@ -71,7 +79,7 @@ namespace ForumsLibrary
                 connection.Execute(sql, post);
             }
         }
-        public void Delete(Post post)
+        public void DeletePost(Post post)
         {
             using (var connection = new SqliteConnection(_connectionString))
             {

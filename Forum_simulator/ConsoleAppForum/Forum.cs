@@ -101,7 +101,7 @@ namespace ConsoleAppForum
 
             Console.Write("\nType Your Idea And Press Enter: ");
             post.Content = Console.ReadLine();
-            _postRepo.Create(post);
+            _postRepo.CreatePost(post);
 
             Console.WriteLine("\nYour Post Added. Press Any Key To Continue...");
             Console.ReadKey(true);
@@ -117,7 +117,7 @@ namespace ConsoleAppForum
 
             Console.Write("Type Your New Idea And Press Enter:: ");
             post.Content = Console.ReadLine();
-            repo.Update(post);
+            repo.UpdatePost(post);
             Console.WriteLine("\nPost Updated Successfuly. Press Any Key To Continue...");
             Console.ReadKey(true);
         }
@@ -128,7 +128,7 @@ namespace ConsoleAppForum
             Console.Write("Enter a Post Id: ");
             var postId = int.Parse(Console.ReadLine());
             var post = repo.GetPostById(postId);
-            repo.Delete(post);
+            repo.DeletePost(post);
 
             Console.WriteLine("\nPost Deleted Successfully. Press Any Key To Continue...");
             Console.ReadKey(true);
@@ -150,16 +150,16 @@ namespace ConsoleAppForum
             Console.Clear();
             var threads = repo.GetThreads();
             Console.WriteLine("\t------Threads------");
-            Console.WriteLine("Id\t | Subject\t | User Name | Post Count\n");
+            Console.WriteLine("Id | Subject\t | User Name | Post Count | Creation Date\n");
             foreach (var thread in threads)
             {
                 if (thread.PostCount == 0)
                 {
-                    Console.WriteLine($"{thread.Id}\t | {thread.Subject}\t\t | {thread.PostCount}");
+                    Console.WriteLine($"{thread.Id} | {thread.Subject}\t\t | {thread.PostCount}");
                 }
                 else
                 {
-                    Console.WriteLine($"{thread.Id}\t | {thread.Subject}\t | {thread.Creator}\t | {thread.PostCount}");
+                    Console.WriteLine($"{thread.Id} | {thread.Subject}\t | {thread.Creator}\t | {thread.PostCount}\t | {thread.CreationDate}");
                 }
             }
             Console.WriteLine("\nPress Any Key To Continue...");
@@ -182,10 +182,10 @@ namespace ConsoleAppForum
             var posts = postrepo.GetPostsByThread(thread);
 
             Console.WriteLine($"\n\t------\"{thread.Subject}\"------\n" +
-                              $"\nUser | Post (Post Id)\n");
+                              $"\nUser | Post (Post Id) | Post Date\n");
 
             foreach (var p in posts)            
-                Console.WriteLine($"\t{p.User.UserName} | {p.Content} ({p.Id})\n");
+                Console.WriteLine($"{p.User.UserName} | {p.Content} ({p.Id}) | {p.PostDate}\n");
 
             Console.WriteLine("\nPress Any Key To Continue...");
             Console.ReadKey(true);

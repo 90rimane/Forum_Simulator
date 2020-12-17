@@ -4,41 +4,37 @@ using Dapper;
 using Microsoft.Data.Sqlite;
 using System.Linq;
 
-namespace ForumLibrary
+namespace ForumsLibrary
 {
     public class Post
     {
-        private const string _connectionString = "Data Source =.\\forumDB.db";
-        private int postId = -1;
-        public Post()
+        private const string _connectionString = "Data Source=.\\ForumDB.db";
+        private int _id = -1;
+        public int Id
         {
+            get { return _id; }
+            set { if (_id == -1) _id = value; }
         }
-        public int PostId
-        {
-            get { return postId; }
-            set { if (postId == -1) postId = value; }
-        }
-        public string PostContent { get; set; }
-        public string PostDate { get; set; }
         public int ThreadId { get; set; }
+        public string Content { get; set; }
         public int UserId { get; set; }
-        public Thread Threads { get; set; }
-        public User Users { get; set; }
+        public User User { get; set; }
+        public Thread Thread { get; set; }
 
         public IList<Post> GetPosts()
         {
             using (var connection = new SqliteConnection(_connectionString))
             {
-                var posts = connection.Query<Post>("SELECT * FROM Post");           
+                var posts = connection.Query<Post>("SELECT * FROM Post");
                 return posts.ToList();
             }
         }
         public Post GetPostById(int id)
         {
             using (var connection = new SqliteConnection(_connectionString))
-            { 
-                var sql = "SELECT * FROM Post WHERE PostId = @PostId";               //
-                return connection.QuerySingle<Post>(sql, new { PostId = postId });
+            {
+                var sql = "SELECT * FROM Post WHERE Post.Id = @Id";
+                return connection.QuerySingle<Post>(sql, new { Id = id });
             }
         }
         public IList<Post> GetPostsByThread(Thread thread)
@@ -46,10 +42,9 @@ namespace ForumLibrary
             using (var connection = new SqliteConnection(_connectionString))
             {
                 var sql = "SELECT p.*, u.* FROM Post AS p " +
-                    "JOIN User AS u ON (p.UserId = u.UserIdId) " +
-                    "JOIN Thread ON (p.ThreadId = ThreadId) " +
-                    "WHERE ThreadId = @ThreadId; ";
-
+                "JOIN User AS u ON (p.UserId = u.Id) " +
+                "JOIN Thread ON (p.ThreadId = Thread.Id) " +
+                "WHERE ThreadId = @Id; ";
                 var posts = connection.Query<Post, User, Post>(sql, (post, user) =>
                 {
                     post.User = user;
@@ -63,17 +58,17 @@ namespace ForumLibrary
             using (var connection = new SqliteConnection(_connectionString))
             {
                 var sql = "INSERT INTO Post (ThreadId, Content, UserId) " +
-                        "VALUES (@ThreadId, @Content, @UserId); " +
-                       "SELECT last_insert_rowid();";
+                "VALUES (@ThreadId, @Content, @UserId); " +
+                "SELECT last_insert_rowid();";
                 var id = connection.Query<int>(sql, post);
-                post.PostId = id.First();
+                post.Id = id.First();
             }
         }
         public void Update(Post post)
         {
             using (var connection = new SqliteConnection(_connectionString))
             {
-                var sql = "UPDATE Post SET Content = @Content WHERE PostId = @PostId;";
+                var sql = "UPDATE Post SET Content = @Content WHERE Id = @Id;";
                 connection.Execute(sql, post);
             }
         }
@@ -81,10 +76,9 @@ namespace ForumLibrary
         {
             using (var connection = new SqliteConnection(_connectionString))
             {
-                var sql = "DELETE FROM Post WHERE PostId = @PostId;";
+                var sql = "DELETE FROM Post WHERE Id = @Id;";
                 connection.Execute(sql, post);
             }
         }
     }
 }
-
